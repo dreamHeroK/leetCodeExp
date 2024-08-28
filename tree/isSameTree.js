@@ -1,6 +1,6 @@
 const array2binary = require('./arrryToTree.js')
 
-
+// 是否相同树
 var isSameTree = function (p, q) {
     console.log(p, q, 'ppqq')
     let res = true
