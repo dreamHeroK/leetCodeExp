@@ -8,13 +8,16 @@ function TreeNode(val) {
 }
 
 var buildTree = function (preorder, inorder) {
+    // 前序遍历的第一个节点是根节点
     let root = new TreeNode(preorder[0])
     function build(root, tree) {
         let rootPoint = preorder[0]
         // console.log(root, 'root')
         let rootIdx = tree.findIndex(item => item === rootPoint)
+        // 中序遍历根节点左边的树是左子树，右边的树是右子树
         let leftTree = tree.slice(0, rootIdx)
         let rightTree = tree.slice(rootIdx + 1)
+
         preorder.splice(0, 1)
         if (!leftTree.length && !rightTree.length) {
             return;
