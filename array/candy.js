@@ -6,3 +6,28 @@
 // 每个孩子至少分配到 1 个糖果。
 // 相邻两个孩子评分更高的孩子会获得更多的糖果。
 // 请你给每个孩子分发糖果，计算并返回需要准备的 最少糖果数目 。
+
+// 贪心。。
+var candy = function (ratings) {
+    let len = ratings.length;
+    let left = [1]
+    for (let i = 1; i < len; i++) {
+        if (i > 0 && ratings[i] > ratings[i - 1]) {
+            left[i] = left[i - 1] + 1
+        } else {
+            left[i] = 1
+        }
+
+    }
+
+    let right = 0, res = 0
+    for (let i = len - 1; i >= 0; i--) {
+        if (i < len - 1 && ratings[i] > ratings[i + 1]) {
+            right++
+        } else {
+            right = 1
+        }
+        res += Math.max(left[i], right)
+    }
+    return res
+}; 
