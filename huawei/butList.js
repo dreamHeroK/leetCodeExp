@@ -12,12 +12,64 @@ const rl = require("readline").createInterface({ input: process.stdin });
 var iter = rl[Symbol.asyncIterator]();
 const readline = async () => (await iter.next()).value;
 
-void async function () {
+
+void (async function () {
     // Write your code here
-    while (line = await readline()) {
-        let tokens = line.split(' ');
-        let a = parseInt(tokens[0]);
-        let b = parseInt(tokens[1]);
-        console.log(a + b);
+    let lines = [];
+    let primary = {},
+        follows = {};
+    while ((line = await readline())) {
+        lines.push(line);
     }
-}()
+    let n = lines[0].split(" ").map(Number)[0];
+    let m = lines[0].split(" ").map(Number)[1];
+    for (let i = 1; i <= m; i++) {
+        let [price, val, follow] = lines[i].split(" ").map(Number);
+        if (follow) {
+            if (follows[follow]) {
+                follows[follow].push([price, val]);
+            } else {
+                follows[follow] = [[price, val]];
+
+            }
+        } else {
+            primary[i] = [price, val];
+        }
+    }
+    m = Object.keys(primary).length;
+    // 靠 这一步不行。tame的这里地址引用到同一个了  找了半天问题 吐了
+    // let dp = new Array(m + 1).fill(new Array(n + 1).fill(0));
+    let dp = new Array(m + 1).fill(0).map(() => new Array(n + 1).fill(0));
+    let w = [[]], v = [[]];
+    for (let key in primary) {
+        let w_temp = [], v_temp = [];
+        w_temp.push(primary[key][0]);
+        v_temp.push(primary[key][1] * primary[key][0]);
+        if (follows[key]) {
+            w_temp.push(w_temp[0] + follows[key][0][0]);
+            v_temp.push(v_temp[0] + follows[key][0][1] * follows[key][0][0]);
+            if (follows[key][1]) {
+                w_temp.push(w_temp[0] + follows[key][1][0]);
+                v_temp.push(v_temp[0] + follows[key][1][1] * follows[key][1][0]);
+                w_temp.push(w_temp[0] + follows[key][0][0] + follows[key][1][0]);
+                v_temp.push(v_temp[0] + follows[key][0][1] * follows[key][0][0] + follows[key][1][1] * follows[key][1][0]);
+            }
+        }
+        w.push(w_temp);
+        v.push(v_temp);
+    }
+    for (let i = 1; i <= m; i++) {
+        for (let j = 10; j <= n; j += 10) {
+            let max_i = dp[i - 1][j]
+            for (let k = 0; k < w[i].length; k++) {
+                if (j - w[i][k] >= 0) {
+                    // console.log(i,k,'ik2',w[i][k],j)
+                    max_i = Math.max(max_i, dp[i - 1][j - w[i][k]] + v[i][k])
+                }
+            }
+            dp[i][j] = max_i
+        }
+    }
+    console.log(dp[m][n])
+})();
+
