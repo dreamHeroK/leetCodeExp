@@ -36,7 +36,7 @@ const record2 = (n) => {
         let smallNum = n - Math.floor(n / Math.pow(10, exp)) * Math.pow(10, exp)
         let bigNum = Math.floor(n / Math.pow(10, exp + 1))
         let num = Math.floor(n / Math.pow(10, exp)) % 10
-        if (num == 0) { // 当前位数字为0 bigNum决定1的个数
+        if (num == 0) { // 当前位数字为0 bigNum决定1的个数 1 11 21 27 
             res += bigNum * Math.pow(10, exp);
         } else if (num == 1) { // 当前位数字为1 bigNum决定1的个数 + smallNum决定1的个数+ 当前位的1
             res += bigNum * Math.pow(10, exp) + smallNum + 1;
@@ -48,5 +48,5 @@ const record2 = (n) => {
    return res
 }
 
-console.log(record1(270))
+console.log(record1(70))
 console.log(record2(270))
