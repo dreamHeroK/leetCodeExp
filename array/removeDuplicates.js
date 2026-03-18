@@ -7,15 +7,26 @@
 // 更改数组 nums ，使 nums 的前 k 个元素包含唯一元素，并按照它们最初在 nums 中出现的顺序排列。nums 的其余元素与 nums 的大小不重要。
 // 返回 k 。
 
-var removeDuplicates = function (nums) {
-    let n = nums.length
-    for (let i = 1; i < n; i++) {
-        if (nums[i] == nums[i - 1]) {
-            nums.splice(i, 1)
-            i--
-            n--
-        }
+// var removeDuplicates = function (nums) {
+//     let n = nums.length
+//     for (let i = 1; i < n; i++) {
+//         if (nums[i] == nums[i - 1]) {
+//             nums.splice(i, 1)
+//             i--
+//             n--
+//         }
+//     }
+// };
+
+const removeDuplicates = (nums) => {
+  let left = 0;
+  for (let right = 0; right < nums.length; right++) {
+    if (nums[right] !== nums[left]) {
+      left++;
+      nums[left] = nums[right];
     }
+  }
+  return left + 1;
 };
 
-removeDuplicates([0, 0, 1, 1, 1, 2, 2, 3, 3, 4])
+console.log(removeDuplicates([0, 0, 1, 1, 1, 2, 2, 3, 3, 4]));
