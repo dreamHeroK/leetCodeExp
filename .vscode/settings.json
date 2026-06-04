@@ -10,5 +10,5 @@
   "editor.wordBasedSuggestions": "off",
   "editor.parameterHints.enabled": false,
   "editor.acceptSuggestionOnCommitCharacter": false,
-  "editor.hover.enabled": false
+  "editor.hover.enabled": "off"
 }
